@@ -61,8 +61,6 @@ def main():
 
     if dic['dirname'] is None:
         dic['dirname'] = dic['target'][:-3]
-	
-	print dic
 
     if os.path.exists(dic['destination'] + '\\' + dic['dirname']):
         if dic['overwrite']:
