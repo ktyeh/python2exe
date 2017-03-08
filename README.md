@@ -2,7 +2,7 @@
 
 ## Abstract
 
-py2exe(http://www.py2exe.org/) converts Python scripts into executable Windows programs. However, it leads to an error when scripts import "numpy".
+[py2exe](http://www.py2exe.org/) converts Python scripts into executable Windows programs. However, it leads to an error when scripts import "numpy".
 
 python2exe.py is using py2exe with "numpy problem" fixed and records the timestamp of building.
 
