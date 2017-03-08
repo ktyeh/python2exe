@@ -12,7 +12,7 @@ python2exe.py is using py2exe with "numpy problem" fixed and records the timesta
 
 ## Usage
 
-### python python2exe.py -t <target.py> [-D <dirname>] [-s <source>] [-d <destination>]
+### python python2exe.py -t &lt;target.py&mt; [-D <dirname>] [-s <source>] [-d <destination>]
 
 #### Args:
   target.py: name of the main Python script
