@@ -15,13 +15,13 @@ python2exe.py is using py2exe with "numpy problem" fixed and records the timesta
 ### python python2exe.py -t &lt;target.py> [-D &lt;dirname>] [-s &lt;source>] [-d &lt;destination>]
 
 #### Args:
->target.py: name of the main Python script
+*target.py: name of the main Python script
 
->dirname: name of directory, defaultly set as same as target
+*dirname: name of directory, defaultly set as same as target
 
->source: path of target.py, defaultly set as current directory
+*source: path of target.py, defaultly set as current directory
 
->destination: output path, defaultly set as current directory
+*destination: output path, defaultly set as current directory
 
 #### Examples:
 	cd python2exe
