@@ -14,35 +14,39 @@ setup(
 )
 '''
 
+
 def main():
     argv = sys.argv[1:]
     try:
-        opts, args = getopt.getopt(argv,"hyt:s:d:",["target=", "dirname=", "source=", "destination="])
+        opts, args = getopt.getopt(argv, "hyt:s:d:D:", ["target=", "dirname=", "source=", "destination="])
     except getopt.GetoptError:
-        print 'python -m python2exe.py -t <target.py>'
+        print 'python python2exe.py -t <target.py> [-D <dirname>] [-s <source>] [-D <destination>]'
         sys.exit(2)
 
     dic = {
         'target': None,
         'dirname': None,
         'source': '.',
-        'destination': 'D:\\python2exe\\',
+        'destination': '.',
         'overwrite': False,
     }
     for opt, arg in opts:
         if opt == '-h':
             # help function
+            print 'python python2exe.py -t <target.py> [-D <dirname>] [-s <source>] [-D <destination>]'
             sys.exit()
         elif opt in ("-t", "--target"):
             dic['target'] = arg
-        elif opt in ("--dirname"):
+        elif opt in ("-D", "--dirname"):
             dic['dirname'] = arg
-        elif opt in ("s", "--source"):
+        elif opt in ("-s", "--source"):
             dic['source'] = arg
-        elif opt in ("d", "--destination"):
+        elif opt in ("-d", "--destination"):
             dic['destination'] = arg
-        elif opt in ("y"):
+        elif opt in ("-y"):
             dic['overwrite'] = True
+
+    print dic
 
     if not os.path.exists(dic['source']):
         print '{} doesn\'t exist.'.format(dic['source'])
@@ -50,10 +54,13 @@ def main():
     if not os.path.exists(dic['destination']):
         os.makedirs(dic['destination'])
 
+    owd = os.getcwd()
+
     if dic['target'] is None:
-        print 'python -m python2exe.py -t <target.py>'
-    elif dic['target'] not in os.listdir('.'):
-        print '{} not found in current directory.'.format(dic['target'])
+        print 'python python2exe.py -t <target.py> [-D <dirname>] [-s <source>] [-D <destination>]'
+        sys.exit(2)
+    elif dic['target'] not in os.listdir(dic['source']):
+        print '{} not found in {}.'.format(dic['target'], dic['source'])
         sys.exit(2)
     elif dic['target'][-3:] != '.py':
         print 'target should be a python script'
@@ -62,33 +69,48 @@ def main():
     if dic['dirname'] is None:
         dic['dirname'] = dic['target'][:-3]
 
-    if os.path.exists(dic['destination'] + '\\' + dic['dirname']):
-        if dic['overwrite']:
-            shutil.rmtree(dic['destination'] + '\\' + dic['dirname'])
-        else:
-            ret = raw_input('{} already exists. Overwrite it? (yes/no)'.format(dic['dirname'])).lower()
-        if ret == 'y' or ret == 'yes':
-            shutil.rmtree(dic['destination'] + '\\' + dic['dirname'])
-        else:
+    # to be simplified
+    if os.path.exists(dic['destination'] + '\\' + dic['dirname']) and not dic['overwrite']:
+        ret = raw_input('{} already exists. Overwrite it? (yes/no) '.format(dic['dirname'])).lower()
+        if not ret == 'y' and not ret == 'yes':
             sys.exit(2)
+        shutil.rmtree(dic['destination'] + '\\' + dic['dirname'])
 
     os.chdir(dic['source'])
+
     if 'numpy-atlas.dll' not in os.listdir('.'):
         shutil.copy(numpy_core_path+'numpy-atlas.dll', '.\\')
+
     with open('.\\setup.py', 'w') as f:
         f.write(setup_py.replace('PLACEHOLDER', dic['target']))
+
     if 'dist' in os.listdir('.'):  # just in case
         shutil.rmtree('.\\dist')
+
     os.system('python setup.py py2exe')
-    shutil.rmtree('.\\build')
-    os.remove('.\\numpy-atlas.dll')
-    os.remove('.\\setup.py')
 
-    version = datetime.strftime(datetime.today(), '%y%m%d%H%M') + '.vsn'
-    open('.\\dist\\'+version, 'w').close()
+    try:
+        shutil.rmtree('.\\build')
+    except:
+        pass
 
-    os.rename('dist', dic['dirname'])
-    shutil.move(dic['dirname'], dic['destination']+'\\')
+    try:
+        os.remove('.\\numpy-atlas.dll')
+    except:
+        pass
+
+    try:
+        os.remove('.\\setup.py')
+    except:
+        pass
+
+    ts = datetime.strftime(datetime.today(), '%y%m%d%H%M') + '.ts'
+    open('.\\dist\\'+ts, 'w').close()
+
+    os.chdir(owd)
+    if os.path.exists(dic['destination'] + '\\' + dic['dirname']):
+        shutil.rmtree(dic['destination'] + '\\' + dic['dirname'])
+    shutil.move(dic['source'] + '\\dist', dic['destination'] + '\\' + dic['dirname'])
 
 if __name__ == '__main__':
     main()
