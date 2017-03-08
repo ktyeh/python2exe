@@ -12,11 +12,22 @@ python2exe.py is using py2exe with "numpy problem" fixed and records the timesta
 
 ## Usage
 
-### python python2exe.py -t <target.py> [-D <dirname>] [-s <source>] [-D <destination>]
+### python python2exe.py -t <target.py> [-D <dirname>] [-s <source>] [-d <destination>]
 
+#### Args:
+  target.py: name of the main Python script
+
+  dirname: name of directory, defaultly set as same as target
+
+  source: path of target.py, defaultly set as current directory
+
+  destination: output path, defaultly set as current directory
+
+#### Examples:
 	cd python2exe
 	python python2exe.py -t test.py -D DIRNAME -s source -d dist
 
-And test.exe would be in ./dist/DIRNAME.
+And test.exe would be in ./dist/DIRNAME
 
+Run ./dist/DIRNAME/test.exe
 ![alt tag](https://github.com/ktyeh/python2exe/blob/master/success.jpg)
