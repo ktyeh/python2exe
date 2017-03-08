@@ -8,14 +8,15 @@ python2exe.py is using py2exe with "numpy problem" fixed and records the timesta
 
 ## Installation
 
->>git clone https://github.com/ktyeh/python2exe.git
+&lt;&lt;git clone https://github.com/ktyeh/python2exe.git
 
 ## Usage
 
 ### python python2exe.py -t <target.py> [-D <dirname>] [-s <source>] [-D <destination>]
 
->>cd python2exe
->>python python2exe.py -t test.py -D DIRNAME -s source -d dist
+&lt;&lt;cd python2exe
+&lt;&lt;python python2exe.py -t test.py -D DIRNAME -s source -d dist
 
 And test.exe would be in ./dist/DIRNAME.
 
+![alt tag](https://github.com/ktyeh/python2exe/blob/master/success.jpg)
